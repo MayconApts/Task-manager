@@ -81,7 +81,7 @@ function formatarData(tarefa){
                     <button onClick={(e)=>{e.stopPropagation(); setEditando(false)}}>
                         Cancelar
                         </button></>)
-                :(<p  onClick={()=> onAlternarTarefa(tarefa.id)}>
+                :(<div  onClick={()=> onAlternarTarefa(tarefa.id)}>
                  Tarefa: {tarefa.titulo} - {tarefa.concluida === false ? "pendente":"concluida"} 
                   - 
                   {mostrarPrioridade(tarefa.prioridade) } 
@@ -95,7 +95,7 @@ function formatarData(tarefa){
 
             }>Editar</button> 
             <button onClick={(e)=>{e.stopPropagation(); onExcluirTarefa(tarefa.id)}}>
-                Excluir</button></p>)   }
+                Excluir</button></div>)   }
                 
               
    </> 

@@ -5,6 +5,7 @@ function FiltroVencimento({filtroPorVencimento,setFiltroPorVencimento}){
             <option value="atrasadas">Atrasadas</option>
             <option value="hoje">Hoje</option>
             <option value="amanha">Amanhã</option>
+            <option value="proximo">Depois de Amanhã</option>
 
         </select>
     )

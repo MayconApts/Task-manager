@@ -144,7 +144,7 @@ function filtrarTarefas(){
   return tarefasFiltradas;
 }
 
-const tarefasFiltradas = filtrarTarefas();
+let tarefasFiltradas = filtrarTarefas();
 
 
 
@@ -158,11 +158,12 @@ function filtrarPorCategoria(tarefasParaFiltrar){
   return tarefasParaFiltrar;
 }
 
+
 const tarefasPorCategoria = filtrarPorCategoria(tarefasFiltradas);
 
 
 const quantidadeTotal = tarefas.length;
-const tarefasOrdenadas = ordenarTarefas(tarefasPorCategoria);
+
 
 function pesoPrioridade(prioridade){
 
@@ -223,14 +224,49 @@ function classeData(tarefa){
         const amanha = new Date(hoje);
         amanha.setDate(hoje.getDate()+1);
 
+        const depoisDeAmanha = new Date(hoje);
+        depoisDeAmanha.setDate(hoje.getDate()+2);
+
         
 
         if(dataVencimento.getTime() === hoje.getTime()) return "data-hoje";
         if(dataVencimento.getTime() === amanha.getTime()) return "data-amanha";
         if(dataVencimento.getTime() < hoje.getTime()) return "data-atrasada";
+        if(dataVencimento.getTime() === depoisDeAmanha.getTime()) return "data-proxima";
+        
         return "data-normal"
     }
 
+    function filtrarPorVencimento(tarefasParaFiltrar){
+if(filtroPorVencimento === "hoje"){
+      tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
+        return classeData(tarefa) === "data-hoje"
+      });
+    }
+if(filtroPorVencimento === "amanha"){
+      tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
+        return classeData(tarefa) === "data-amanha";
+      });
+    }
+    
+if(filtroPorVencimento === "atrasadas"){
+      tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
+        return classeData(tarefa) === "data-atrasada";
+      });
+    }
+    if(filtroPorVencimento === "proximo"){
+      tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
+        return classeData(tarefa) === "data-proxima";
+      });
+    }
+    return tarefasParaFiltrar;
+  }
+    
+
+    const tarefasFiltradasPorVencimento = filtrarPorVencimento(tarefasPorCategoria);
+    
+    
+    const tarefasOrdenadas = ordenarTarefas(tarefasFiltradasPorVencimento);
 const tarefasBusca = buscarTarefas(tarefasOrdenadas);
 
 
@@ -271,9 +307,9 @@ const percentualConclusao = calcularPercentualConclusao();
    <OrdenacaoTarefas ordenacao={ordenacao} setOrdenacao={setOrdenacao}/>
    <BuscaTarefas busca={busca} setBusca={setBusca}/>
    <FiltroVencimento filtroPorVencimento={filtroPorVencimento} setFiltroPorVencimento={setFiltroPorVencimento}/>
-   <LimparFiltros setFiltro={setFiltro} setFiltroCategoria={setFiltroCategoria} setBusca={setBusca} setOrdenacao={setOrdenacao}/>
+   <LimparFiltros setFiltroPorVencimento={setFiltroPorVencimento} setFiltro={setFiltro} setFiltroCategoria={setFiltroCategoria} setBusca={setBusca} setOrdenacao={setOrdenacao}/>
    {tarefasBusca.length === 0 ?(<p>Nenhuma tarefa encontrada</p>):<>{tarefasBusca.map((item)=>{
-    return <Tarefa key={item.id} onAlternarTarefa={alternarTarefa}  classeData={classeData} onEditarTarefa={editarTarefa} onExcluirTarefa={excluirTarefa} tarefa={item} />})}
+    return <Tarefa key={item.id} onAlternarTarefa={alternarTarefa}  classeData={classeData}  onEditarTarefa={editarTarefa} onExcluirTarefa={excluirTarefa} tarefa={item} />})}
   </>}
    
  </> 
