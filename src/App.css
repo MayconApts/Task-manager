@@ -204,6 +204,12 @@ cursor: pointer;
 .data-concluida{
   color:green
 }
+.data-proxima{
+  color:yellow
+}
+.data-proximos-7-dias{
+  color:lightblue
+}
 
 .barra-progresso{
   width:100%;

@@ -193,6 +193,15 @@ function ordenarTarefas(tarefasParaOrdenar){
     tarefasParaOrdenar.sort((a,b)=>{
       return pesoPrioridade(a.prioridade)- pesoPrioridade(b.prioridade);
     })
+  }else if(ordenacao === "data-vencimento"){
+     tarefasParaOrdenar.sort((a,b)=>{
+      if(!a.dataVencimento){
+        return 1;
+      }else if(!b.dataVencimento){
+        return -1;
+      }
+      return new Date(a.dataVencimento) - new Date(b.dataVencimento);
+    })
   }
 
   return tarefasParaOrdenar;
@@ -227,12 +236,16 @@ function classeData(tarefa){
         const depoisDeAmanha = new Date(hoje);
         depoisDeAmanha.setDate(hoje.getDate()+2);
 
+        const proximos7Dias = new Date(hoje);
+        proximos7Dias.setDate(hoje.getDate()+7);
+
         
 
         if(dataVencimento.getTime() === hoje.getTime()) return "data-hoje";
         if(dataVencimento.getTime() === amanha.getTime()) return "data-amanha";
-        if(dataVencimento.getTime() < hoje.getTime()) return "data-atrasada";
         if(dataVencimento.getTime() === depoisDeAmanha.getTime()) return "data-proxima";
+        if(dataVencimento.getTime()>hoje.getTime() && dataVencimento.getTime() <= proximos7Dias.getTime()) return "data-proximos-7-dias";
+        if(dataVencimento.getTime() < hoje.getTime()) return "data-atrasada";
         
         return "data-normal"
     }
@@ -242,23 +255,28 @@ if(filtroPorVencimento === "hoje"){
       tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
         return classeData(tarefa) === "data-hoje"
       });
-    }
+    }else
 if(filtroPorVencimento === "amanha"){
       tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
         return classeData(tarefa) === "data-amanha";
       });
     }
-    
+    else
 if(filtroPorVencimento === "atrasadas"){
       tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
         return classeData(tarefa) === "data-atrasada";
       });
-    }
+    }else
     if(filtroPorVencimento === "proximo"){
       tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
         return classeData(tarefa) === "data-proxima";
       });
-    }
+    }else
+    if(filtroPorVencimento === "proximos7dias"){
+      tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
+        return classeData(tarefa) === "data-proximos-7-dias";
+      });
+        }
     return tarefasParaFiltrar;
   }
     

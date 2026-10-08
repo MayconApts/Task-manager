@@ -10,7 +10,11 @@ function Tarefa({tarefa,onAlternarTarefa,onExcluirTarefa,onEditarTarefa,classeDa
 
 function formatarData(tarefa){
     const data = tarefa.dataVencimento;
+
   if(!data) return "";
+ if (tarefa.concluida) {
+  return "✅ Concluída";
+}
 
   const [ano,mes,dia] = data.split("-");
 
@@ -18,12 +22,17 @@ function formatarData(tarefa){
 
   const hoje = new Date();
   hoje.setHours(0,0,0,0);
+  const depoisDeAmanha = new Date(hoje);
+  depoisDeAmanha.setDate(hoje.getDate()+2);
 
   const amanha = new Date(hoje);
   amanha.setDate(hoje.getDate()+1);
   if(dataVencimento.getTime() === hoje.getTime()) return " 🟠 Hoje";
   if(dataVencimento.getTime() === amanha.getTime()) return "🔵 Amanhã";
   if(dataVencimento.getTime() < hoje.getTime()) return "🔴 Atrasada";
+  if(dataVencimento.getTime() === depoisDeAmanha.getTime()) return "🟡 Depois de Amanhã";
+ 
+
 
   return `${dia}/${mes}/${ano}`;
 
