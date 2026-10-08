@@ -277,6 +277,11 @@ if(filtroPorVencimento === "atrasadas"){
         return classeData(tarefa) === "data-proximos-7-dias";
       });
         }
+        else if(filtroPorVencimento === "sem-data"){
+          tarefasParaFiltrar = tarefasParaFiltrar.filter((tarefa)=>{
+            return !tarefa.dataVencimento;
+          })
+        }
     return tarefasParaFiltrar;
   }
     
