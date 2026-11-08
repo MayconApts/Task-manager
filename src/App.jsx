@@ -10,6 +10,7 @@ import OrdenacaoTarefas from './components/OrdenacaoTarefas'
 import BuscaTarefas from './components/BuscaTarefas'
 import LimparFiltros from './components/LimparFiltros'
 import FiltroVencimento from './components/FiltroVencimento'
+import Usuarios from './components/Usuarios'
 
 
 
@@ -195,6 +196,9 @@ function ordenarTarefas(tarefasParaOrdenar){
     })
   }else if(ordenacao === "data-vencimento"){
      tarefasParaOrdenar.sort((a,b)=>{
+      if(!a.dataVencimento && !b.dataVencimento){
+        return 0;
+      }
       if(!a.dataVencimento){
         return 1;
       }else if(!b.dataVencimento){
@@ -320,7 +324,7 @@ const percentualConclusao = calcularPercentualConclusao();
    textobotao="Nova tarefa"
    onAdicionarTarefa={adicionarTarefa}/>
 
-      
+      <Usuarios/>
   <ResumoTarefas percentualConclusao={percentualConclusao}    quantidadePendentes={quantidadePendentes} quantidadeConcluidas={quantidadeConcluidas} quantidadeTotal={quantidadeTotal}/>
    <div className='barra-progresso'>
     <div className='barra-progresso-preenchida' style={{width:`${percentualConclusao}%`}}></div>
